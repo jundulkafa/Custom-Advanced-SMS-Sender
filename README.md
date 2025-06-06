@@ -27,4 +27,4 @@ pkg update && pkg install python -y
 pip install requests
 git clone https://github.com/jundulkafa/Custom-Advanced-SMS-Sender.git
 cd Custom-Advanced-SMS-Sender
-python sms-sender.py**
+python sms sender.py**
