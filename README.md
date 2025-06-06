@@ -25,6 +25,6 @@ A simple SMS sender script written in Python, designed for use with **Termux** (
 ```bash
 pkg update && pkg install python -y
 pip install requests
-git clone https://github.com/YOUR_USERNAME/sms-sender.git
+git clone https://github.com/jundulkafa/Custom-Advanced-SMS-Sender.git
 cd sms-sender
 python sms_sender.py**
