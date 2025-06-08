@@ -1,37 +1,59 @@
 import requests
 import time
 import os
+import json
 
-# Colors for better display in Termux
+# Terminal colors for Termux
 RED = '\033[91m'
 GREEN = '\033[92m'
 CYAN = '\033[96m'
 YELLOW = '\033[93m'
 RESET = '\033[0m'
 
+# Clear screen
 def clear():
     os.system('clear')
 
+# Display banner
 def banner():
     print(CYAN + "="*50)
-    print("        📲 Custom Advanced SMS Sender")
-    print("        👨‍💻 Author: Jundul Kafa")
+    print("        📲 Infobip SMS Sender (Termux Edition)")
+    print("        👨‍💻 Author: Md. Jahid Hasan")
     print("="*50 + RESET)
 
+# Send SMS via Infobip
 def send_sms(number, message):
-    url = f"https://riad.nagad.my.id/api/api.php?key=EID-GIFT&number={number}&msg={message}"
+    url = "https://api.infobip.com/sms/2/text/advanced"
+    payload = json.dumps({
+        "messages": [
+            {
+                "from": "InfoSMS",  # Set a valid registered sender ID
+                "destinations": [{"to": f"88{number}"}],  # Infobip expects full international number
+                "text": message
+            }
+        ]
+    })
+
+    headers = {
+        'Authorization': 'App e81d1ecd545bd323f4c2cce7d375778e-5f5d9467-1496-4001-85a3-9699e908046e',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+
     try:
-        response = requests.get(url)
+        response = requests.post(url, headers=headers, data=payload)
         if response.status_code == 200:
             print(GREEN + f"✅ SMS sent to {number} | Message: {message}" + RESET)
         else:
-            print(RED + f"❌ Failed to send SMS. Status Code: {response.status_code}" + RESET)
+            print(RED + f"❌ Failed to send SMS. Code: {response.status_code} | {response.text}" + RESET)
     except Exception as e:
         print(RED + f"❌ Error: {e}" + RESET)
 
+# Validate BD number
 def is_valid_number(number):
     return number.isdigit() and len(number) == 11 and number.startswith("01")
 
+# Main function
 def main():
     while True:
         clear()
